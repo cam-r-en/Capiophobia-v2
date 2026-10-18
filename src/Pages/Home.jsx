@@ -81,7 +81,11 @@ function Home() {
         {/* Header */}
         <div className="header-container">
           <div className="warning-container">
-            <img id="head-img" src="imgs/Intro Badge.gif" alt="Intro Badge" />
+            <img
+              id="head-img"
+              src={`${import.meta.env.BASE_URL}imgs/Intro Badge.gif`}
+              alt="Intro Badge"
+            />
             <i>
               <p className="disclaim">
                 This website may contain some sensitive topics. <br />

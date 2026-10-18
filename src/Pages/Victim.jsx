@@ -50,7 +50,11 @@ const Victim = () => {
     <main className="detail-page">
       <header className="c-intro">
         <Link to="/">
-          <img id="chead-img" src="/imgs/Intro Badge.gif" alt="Intro Badge" />
+          <img
+            id="chead-img"
+            src={`${import.meta.env.BASE_URL}imgs/Intro Badge.gif`}
+            alt="Intro Badge"
+          />
         </Link>
         <nav className="detail-nav-actions" aria-label="Page navigation">
           <Link className="c-hnav-button" to="/">Home</Link>

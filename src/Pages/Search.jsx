@@ -78,7 +78,11 @@ function SearchPage() {
     <div className="search-page">
       <div className="intro">
         <Link to="/">
-          <img id="chead-img" src="/imgs/Intro Badge.gif" alt="Intro Badge" />
+          <img
+            id="chead-img"
+            src={`${import.meta.env.BASE_URL}imgs/Intro Badge.gif`}
+            alt="Intro Badge"
+          />
         </Link>{" "}
         <h1>Search</h1>
         <SearchForm />

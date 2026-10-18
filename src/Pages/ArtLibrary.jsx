@@ -27,7 +27,11 @@ const ArtLibrary = () => {
   return (
     <>
       <div className="intro">
-        <img id="shead-img" src="imgs/Intro Badge.gif" alt="Intro Badge" />
+        <img
+          id="shead-img"
+          src={`${import.meta.env.BASE_URL}imgs/Intro Badge.gif`}
+          alt="Intro Badge"
+        />
         <h1>Articles</h1>
         <Link to="/" className="hnav-button">
           &larr; Main Page

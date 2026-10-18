@@ -40,7 +40,7 @@ const MoreStories = () => {
     <main className="community-stories-page">
       <header className="community-stories-header">
         <Link to="/" aria-label="Return to home">
-          <img src="/imgs/Intro Badge.gif" alt="" />
+          <img src={`${import.meta.env.BASE_URL}imgs/Intro Badge.gif`} alt="" />
         </Link>
         <h1>Community Stories</h1>
         <nav className="community-stories-actions" aria-label="Page actions">

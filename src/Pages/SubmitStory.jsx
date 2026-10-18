@@ -46,7 +46,7 @@ const SubmitStory = () => {
     <main className="submit-story-page">
       <header className="submit-story-header">
         <Link to="/" aria-label="Return to home">
-          <img src="/imgs/Intro Badge.gif" alt="" />
+          <img src={`${import.meta.env.BASE_URL}imgs/Intro Badge.gif`} alt="" />
         </Link>
         <h1>Submit Your Story</h1>
         <Link className="submit-story-home" to="/">

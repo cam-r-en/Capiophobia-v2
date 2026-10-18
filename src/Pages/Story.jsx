@@ -45,7 +45,7 @@ const Story = () => {
     <main className="story-page">
       <header className="story-page-header">
         <Link to="/" aria-label="Return to home">
-          <img src="/imgs/Intro Badge.gif" alt="" />
+          <img src={`${import.meta.env.BASE_URL}imgs/Intro Badge.gif`} alt="" />
         </Link>
         <h1>Community Story</h1>
         <Link className="story-page-action" to="/morestories">
