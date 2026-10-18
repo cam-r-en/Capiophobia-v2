@@ -1,0 +1,49 @@
+/* Theme Tokens and Base Typography */
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  --bg-primary: #536b84;
+  --bg-surface: #ffffff;
+  --text-main: #1f2937;
+  --text-muted: #687386;
+  --accent-red: #a34a50;
+  --accent-red-hover: #8f3e45;
+  --accent-blue: #48627d;
+  --accent-blue-dark: #344b63;
+  --border-color: #dce2e8;
+  --page-shadow: 0 12px 36px rgba(25, 43, 64, 0.24);
+  --font-serif: "Georgia", "Times New Roman", serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+
+  font-family: var(--font-sans);
+  color: var(--text-main);
+  background-color: var(--bg-primary);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global Box Model */
+* {
+  box-sizing: border-box;
+}
+
+/* Document Defaults */
+html {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+}
+
+a {
+  color: var(--accent-red);
+}

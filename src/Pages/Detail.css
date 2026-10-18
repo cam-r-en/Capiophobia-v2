@@ -1,0 +1,322 @@
+/* Detail Page Shell */
+.detail-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 84px 40px 40px;
+  background-color: var(--bg-surface, #ffffff);
+  box-shadow: var(--page-shadow, 0 10px 32px rgba(43, 61, 81, 0.14));
+}
+
+/* Fixed Detail Page Header */
+.c-intro {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  height: 64px;
+  padding: 8px 40px;
+  transform: translateX(-50%);
+  border-bottom: 1px solid #263b50;
+  background-color: var(--accent-blue-dark, #344b63);
+}
+
+/* Generic Detail Header and Content */
+.c-head {
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+}
+.c-shead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.c-content {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  overflow-wrap: anywhere;
+}
+
+/* Video Detail Layout */
+.video-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  width: 100%;
+  max-width: 1100px;
+  min-height: 360px;
+  overflow: hidden;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 4px;
+  background-color: var(--bg-surface, #ffffff);
+}
+
+.video-detail-media {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: 24px;
+  background-color: var(--bg-primary, #536b84);
+}
+
+.video-detail-player-content {
+  width: 100%;
+  min-width: 0;
+}
+
+.video-detail-player-content .rich-content-embed {
+  margin: 0;
+}
+
+.video-detail-player-content .rich-content-embed a {
+  display: block;
+  width: fit-content;
+  margin: 12px auto 0;
+  color: #f1f4f7;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.video-detail-player-content .rich-content-embed a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.video-detail-thumbnail {
+  display: block;
+  width: 100%;
+  margin: auto;
+  max-height: 480px;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.video-detail-info {
+  min-width: 0;
+  padding: 32px;
+  background-color: var(--bg-surface, #ffffff);
+}
+
+.video-detail-title {
+  margin: 0 0 12px;
+  color: var(--text-main, #111111);
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: 1.75rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.video-detail-info .c-description {
+  margin-top: 24px;
+}
+
+/* Expand article/video content when it contains paired media. */
+.c-content:has(.rich-content-media-row.has-details) {
+  max-width: 1100px;
+}
+
+/* Related Victim and Officer Cards */
+.related-people {
+  width: 75%;
+  max-width: 800px;
+  margin-top: -30px;
+}
+.related-people h2 {
+  color: var(--text-main, #111111);
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  text-align: center;
+}
+.related-people-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.related-person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border: 2px solid #2c2c2c; /* Deep charcoal (soft black) */
+  background-color: var(--accent-blue-dark, #344b63);
+  border-radius: 4px;
+  color: var(--text-main, #6b7280);
+  text-align: center;
+  text-decoration: none;
+  transition: border-color 0.2s ease; /* Optional: adds a smooth transition on hover */
+}
+.related-person:hover {
+  border-color: #6b7280; /* Modern slate/cool gray accent */
+}
+.related-person img {
+  width: 100%;
+  max-width: 180px;
+  aspect-ratio: 1;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+/* Shared Detail Metadata and Description */
+.c-title {
+  display: block;
+  margin: 0 0 8px;
+  color: var(--text-main, #111111);
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.c-author {
+  margin: 0;
+  color: var(--text-muted, #666666);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.c-creation {
+  margin: 0;
+  color: var(--text-muted, #666666);
+  font-size: 0.8rem;
+}
+
+.c-description {
+  margin: 16px 0;
+  color: var(--text-main, #111111);
+  font-size: 1rem;
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+
+.c-url {
+  margin: 20px 0;
+  font-size: 0.9rem;
+}
+
+.c-tbnl {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  max-height: 480px;
+  margin: 0 auto 24px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+/* Detail Header Branding and Navigation */
+img#chead-img {
+  width: 48px;
+  height: auto;
+  margin: 0;
+  border: none;
+  border-radius: 3px;
+}
+
+.detail-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.c-hnav-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 10px 16px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 4px;
+  background-color: var(--bg-surface, #ffffff);
+  color: var(--text-main, #111111);
+  cursor: pointer;
+  font-family: var(--font-sans, Arial, sans-serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.c-hnav-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.c-hnav-button:hover {
+  border-color: var(--accent-blue-dark, #344b63);
+  background-color: var(--accent-blue-dark, #344b63);
+  color: #ffffff;
+}
+.c-hnav-button:active {
+  transform: translateY(1px);
+}
+
+/* Detail Page Separators */
+.d-divide,
+.t-divide {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 24px;
+  border: 0;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+/* Tablet Detail Layout */
+@media (max-width: 850px) {
+  .detail-page {
+    padding: 80px 20px 30px;
+  }
+
+  .c-intro {
+    padding: 8px 20px;
+  }
+
+  .c-title {
+    font-size: 1.5rem;
+  }
+
+  .video-detail-info {
+    padding: 24px;
+  }
+
+  .detail-nav-actions {
+    gap: 6px;
+  }
+
+  .detail-nav-actions .c-hnav-button {
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Mobile Video Detail Layout */
+@media (max-width: 700px) {
+  .video-detail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .video-detail-media {
+    min-height: 220px;
+  }
+
+  .video-detail-info {
+    padding: 20px;
+  }
+}

@@ -1,0 +1,145 @@
+/* Submission Page Shell */
+.submit-story-page {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  background-color: var(--bg-surface, #ffffff);
+  box-shadow: var(--page-shadow, 0 10px 32px rgba(43, 61, 81, 0.14));
+}
+
+/* Submission Page Header */
+.submit-story-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 80px;
+  padding: 12px 40px;
+  border-bottom: 3px solid var(--accent-blue, #48627d);
+}
+
+.submit-story-header img {
+  display: block;
+  width: 48px;
+  height: auto;
+}
+
+.submit-story-header h1 {
+  margin: 0;
+  color: var(--text-main, #1f2937);
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: 1.8rem;
+}
+
+.submit-story-home {
+  margin-left: auto;
+}
+
+/* Submission Form Layout */
+.submit-story-content {
+  width: min(100% - 40px, 720px);
+  margin: 32px auto;
+}
+
+.submit-story-content > p {
+  color: var(--text-muted, #687386);
+  line-height: 1.6;
+}
+
+.submit-story-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.submit-story-form label {
+  margin-top: 8px;
+  color: var(--text-main, #1f2937);
+  font-weight: 600;
+}
+
+.submit-story-form input,
+.submit-story-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color, #dce2e8);
+  border-radius: 4px;
+  color: var(--text-main, #1f2937);
+  font: inherit;
+}
+
+.submit-story-form textarea {
+  min-height: 220px;
+  resize: vertical;
+}
+
+/* Form Focus States */
+.submit-story-form input:focus,
+.submit-story-form textarea:focus {
+  border-color: var(--accent-blue, #48627d);
+  outline: 2px solid rgba(72, 98, 125, 0.2);
+}
+
+/* Form Actions */
+.submit-story-form button,
+.submit-story-home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--accent-red, #a34a50);
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.submit-story-form button {
+  justify-self: start;
+  margin-top: 10px;
+}
+
+.submit-story-form button:hover,
+.submit-story-home:hover {
+  background-color: var(--accent-red-hover, #8f3e45);
+}
+
+.submit-story-form button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.submit-story-error {
+  margin: 8px 0;
+  color: var(--accent-red, #a34a50);
+}
+
+.submit-story-success {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid var(--border-color, #dce2e8);
+  border-left: 4px solid var(--accent-blue, #48627d);
+  border-radius: 4px;
+  color: var(--text-main, #1f2937);
+}
+
+/* Mobile Submission Header */
+@media (max-width: 600px) {
+  .submit-story-header {
+    gap: 10px;
+    padding: 12px 20px;
+  }
+
+  .submit-story-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .submit-story-home {
+    padding: 8px 10px;
+  }
+}

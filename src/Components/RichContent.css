@@ -1,0 +1,110 @@
+/* Base typography and wrapping for rich article/video content. */
+.rich-content {
+  color: var(--text-main, #111111);
+  font-family: var(--font-sans, Arial, sans-serif);
+  font-size: 1rem;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+/* Separate prose paragraphs while preserving intentional line breaks. */
+.rich-content p {
+  margin: 0 0 1em;
+  white-space: pre-wrap;
+}
+
+/* Place detected media beside its associated description on larger screens. */
+.rich-content-media-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(220px, 0.7fr);
+  align-items: center;
+  gap: 28px;
+  margin: 24px 0;
+}
+
+/* Use the available width for media blocks that have no accompanying text. */
+.rich-content-media-row:not(.has-details) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Prevent media or text columns from forcing the grid wider than its parent. */
+.rich-content-media {
+  min-width: 0;
+}
+
+.rich-content-media-details {
+  min-width: 0;
+  white-space: pre-wrap;
+}
+
+/* Match links to the site's editorial red accent. */
+.rich-content a {
+  color: var(--accent-red, #a34a50);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Keep linked images responsive and within a sensible maximum height. */
+.rich-content-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 480px;
+  margin: 20px auto;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+/* Remove standalone image spacing when it is inside a side-by-side row. */
+.rich-content-media-row .rich-content-image {
+  margin: 0;
+}
+
+/* Give standalone embeds consistent width and vertical spacing. */
+.rich-content-embed {
+  width: 100%;
+  margin: 20px 0;
+}
+
+/* Let embeds align to the media column in a paired row. */
+.rich-content-media-row .rich-content-embed {
+  margin: 0;
+}
+
+/* Use a responsive 16:9 frame for video and social embeds. */
+.rich-content-embed iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 4px;
+  background-color: #111111;
+}
+
+.rich-content-embed-x iframe {
+  min-height: 320px;
+  aspect-ratio: auto;
+}
+
+.rich-content-embed-tiktok iframe {
+  width: min(100%, 325px);
+  margin: 0 auto;
+  aspect-ratio: 9 / 16;
+}
+
+/* Keep a direct source link available below embeds. */
+.rich-content-embed a {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+/* Stack media and its description on narrower screens. */
+@media (max-width: 700px) {
+  .rich-content-media-row,
+  .rich-content-media-row:not(.has-details) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}

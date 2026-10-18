@@ -1,0 +1,104 @@
+/* Individual Community Story Page */
+.story-page {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  background-color: var(--bg-primary);
+
+  box-shadow: var(--page-shadow, 0 10px 32px rgba(43, 61, 81, 0.14));
+}
+
+/* Story Page Header */
+.story-page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 80px;
+  padding: 12px 40px;
+  border-bottom: 3px solid var(--accent-blue, #48627d);
+  background-color: var(--bg-surface, #ffffff);
+}
+.story-page-header img {
+  display: block;
+  width: 48px;
+  height: auto;
+}
+.story-page-header h1 {
+  margin: 0;
+  color: var(--text-main, #1f2937);
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: 1.8rem;
+}
+
+.story-page-action {
+  margin-left: auto;
+  padding: 10px 14px;
+  border-radius: 4px;
+  background-color: var(--accent-red, #a34a50);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.story-page-action:hover {
+  background-color: var(--accent-red-hover, #8f3e45);
+}
+
+/* Single Story Card */
+.story-page-content {
+  width: min(100% - 40px, 1000px);
+  margin: 32px auto;
+}
+
+.story-detail-card {
+  min-height: 280px;
+  padding: 32px;
+  border-radius: 4px;
+  background-color: var(--bg-surface, #ffffff);
+  color: var(--text-main, #1f2937);
+  overflow-wrap: anywhere;
+  border: 2px solid #1f2937;
+}
+.story-detail-card h2 {
+  margin: 0 0 20px;
+  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
+  font-size: 1.6rem;
+  justify-self: center;
+}
+.story-detail-card p {
+  margin: 0;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+.story-detail-card time {
+  display: block;
+  margin-top: 24px;
+  color: #a34a50;
+  font-size: 0.9rem;
+  text-align: end;
+}
+.story-page-error {
+  color: #ffffff;
+}
+
+/* Mobile Story Page */
+@media (max-width: 600px) {
+  .story-page-header {
+    gap: 10px;
+    padding: 12px 20px;
+  }
+
+  .story-page-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .story-page-action {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .story-detail-card {
+    padding: 22px;
+  }
+}
