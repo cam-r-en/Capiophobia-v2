@@ -1,6 +1,6 @@
 # Capiophobia
 The intense or irrational fear of the police or getting arrested.
-# Camren Henderson
+## Camren Henderson
 Solo Designer, Prototyper, and Writer (UI/UX Lead)
 
 # Timeline
