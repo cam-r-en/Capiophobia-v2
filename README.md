@@ -1,3 +1,9 @@
+# Capiophobia
+* The intense or irrational fear of the police or getting arrested *
+
+
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
