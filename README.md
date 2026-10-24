@@ -13,7 +13,7 @@ In Spring 2025, I attended another intermediate course for Web Development, also
 (https://canva.link/xrwl6wmjg1cu4xo)
 ### HTML, CSS, JS
 - Used container divs to separate sections of the site between each other (header, content, footer, etc.)
-- Used list containers (<ul> & <li>) to create a navigation bar for improved interaction (with Javascript)
+- Used list containers (ul & li) to create a navigation bar for improved interaction (with Javascript)
     - Kept fixed on the screen after scrolling past (with CSS & JS)
 - Created content pages (videos and articles) for more accessibility (with Javascript)
 ### React.js
