@@ -1,5 +1,5 @@
 # Capiophobia
-* The intense or irrational fear of the police or getting arrested *
+### The intense or irrational fear of the police or getting arrested
 
 
 
