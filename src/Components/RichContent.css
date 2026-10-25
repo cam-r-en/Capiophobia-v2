@@ -93,6 +93,11 @@
   aspect-ratio: 9 / 16;
 }
 
+.rich-content-embed-facebook-post iframe {
+  min-height: 500px;
+  aspect-ratio: auto;
+}
+
 /* Keep a direct source link available below embeds. */
 .rich-content-embed a {
   display: inline-block;

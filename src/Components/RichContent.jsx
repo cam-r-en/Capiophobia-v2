@@ -51,6 +51,38 @@ const embedProviders = [
     },
   },
   {
+    name: "Facebook",
+    getEmbedUrl(url) {
+      const host = url.hostname.replace(/^(www|m|web)\./, "");
+      const path = url.pathname;
+
+      if (host !== "facebook.com" && host !== "fb.watch") {
+        return null;
+      }
+
+      const isVideo =
+        host === "fb.watch" ||
+        /(?:^|\/)(?:videos?|reel|watch|share\/v)(?:\/|$)/i.test(path);
+      const isPost =
+        /\/(?:posts|permalink|share\/p)\//i.test(path) ||
+        /\/(?:story|photo)\.php$/i.test(path) ||
+        url.searchParams.has("story_fbid") ||
+        url.searchParams.has("fbid");
+
+      if (!isVideo && !isPost) {
+        return null;
+      }
+
+      const plugin = isVideo ? "video" : "post";
+      const showText = isVideo ? "false" : "true";
+
+      return {
+        url: `https://www.facebook.com/plugins/${plugin}.php?href=${encodeURIComponent(url.href)}&show_text=${showText}`,
+        layout: isVideo ? null : "facebook-post",
+      };
+    },
+  },
+  {
     name: "X", //Twitter
     getEmbedUrl(url) {
       const host = url.hostname.replace(/^www\./, "");
@@ -99,10 +131,15 @@ function getMedia(url) {
   }
 
   for (const provider of embedProviders) {
-    const embedUrl = provider.getEmbedUrl(parsedUrl);
+    const embed = provider.getEmbedUrl(parsedUrl);
 
-    if (embedUrl) {
-      return { type: "embed", name: provider.name, url: embedUrl };
+    if (embed) {
+      return {
+        type: "embed",
+        name: provider.name,
+        url: typeof embed === "string" ? embed : embed.url,
+        layout: typeof embed === "string" ? null : embed.layout,
+      };
     }
   }
 
@@ -138,7 +175,10 @@ function renderMedia(media, url, key) {
 
   if (media?.type === "embed") {
     return (
-      <div className="rich-content-embed" key={key}>
+      <div
+        className={`rich-content-embed${media.layout ? ` rich-content-embed-${media.layout}` : ""}`}
+        key={key}
+      >
         <iframe
           src={media.url}
           title={`${media.name} media`}
