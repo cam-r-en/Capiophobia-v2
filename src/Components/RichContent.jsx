@@ -13,7 +13,6 @@ const socialPostIdPattern = /^\d+$/;
 let xWidgetsPromise;
 
 // Each provider converts its supported share URL into a safe embed URL.
-// Add a provider here to extend media support without changing the renderer.
 const embedProviders = [
   {
     name: "YouTube",
