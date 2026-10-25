@@ -27,6 +27,11 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
+/* Give X posts full width so the post and any accompanying text aren't squeezed. */
+.rich-content-media-row.has-x-embed {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 /* Prevent media or text columns from forcing the grid wider than its parent. */
 .rich-content-media {
   min-width: 0;
@@ -82,9 +87,23 @@
   background-color: #111111;
 }
 
+.rich-content-embed-x {
+  max-width: 550px;
+}
+
+.rich-content-embed-x .twitter-tweet {
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto !important;
+}
+
 .rich-content-embed-x iframe {
-  min-height: 320px;
-  aspect-ratio: auto;
+  display: block;
+  width: 100% !important;
+  max-width: 550px;
+  margin: 0 auto;
+  border: 0;
+  border-radius: 15px;
 }
 
 .rich-content-embed-tiktok iframe {
@@ -117,9 +136,6 @@
     max-height: 560px;
   }
 
-  .rich-content-embed-x iframe {
-    min-height: 380px;
-  }
 }
 
 /* Increase Rich Media Limits on Extra-Wide Displays */
@@ -133,9 +149,6 @@
     max-height: 640px;
   }
 
-  .rich-content-embed-x iframe {
-    min-height: 440px;
-  }
 }
 
 /* Stack media and its description on narrower screens. */

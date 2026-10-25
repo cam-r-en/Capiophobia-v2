@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./RichContent.css";
 
 // Match links in text while excluding common sentence-ending punctuation.
-const urlPattern = /https?:\/\/[^\s<>"']+/gi;
+const urlPattern = /https?:\/\/[^\s<>"')]+/gi;
 const inlineTokenPattern =
   /\[[^\]\n]+\]\(https?:\/\/[^)\s]+\)|\*\*[^*\n]+\*\*|\*[^*\n]+\*|https?:\/\/[^\s<>"']+/gi;
 const markdownLinkPattern = /^\[([^\]\n]+)\]\((https?:\/\/[^)\s]+)\)$/;
@@ -10,6 +10,7 @@ const trailingPunctuationPattern = /[.,!?;:)\]}]+$/;
 const imageExtensionPattern = /\.(avif|bmp|gif|jpe?g|png|svg|webp)$/i;
 const youtubeIdPattern = /^[\w-]{11}$/;
 const socialPostIdPattern = /^\d+$/;
+let xWidgetsPromise;
 
 // Each provider converts its supported share URL into a safe embed URL.
 // Add a provider here to extend media support without changing the renderer.
@@ -35,7 +36,10 @@ const embedProviders = [
       }
 
       return videoId && youtubeIdPattern.test(videoId)
-        ? `https://www.youtube-nocookie.com/embed/${videoId}`
+        ? {
+            url: `https://www.youtube-nocookie.com/embed/${videoId}`,
+            aspectRatio: /^\/shorts\//.test(url.pathname) ? "9 / 16" : "16 / 9",
+          }
         : null;
     },
   },
@@ -46,7 +50,10 @@ const embedProviders = [
       const match = url.pathname.match(/^\/(p|reel|tv)\/([A-Za-z0-9_-]+)/);
 
       return host === "instagram.com" && match
-        ? `https://www.instagram.com/${match[1]}/${match[2]}/embed`
+        ? {
+            url: `https://www.instagram.com/${match[1]}/${match[2]}/embed`,
+            aspectRatio: match[1] === "reel" ? "9 / 16" : null,
+          }
         : null;
     },
   },
@@ -75,10 +82,12 @@ const embedProviders = [
 
       const plugin = isVideo ? "video" : "post";
       const showText = isVideo ? "false" : "true";
+      const isReel = /\/reel\//i.test(path);
 
       return {
         url: `https://www.facebook.com/plugins/${plugin}.php?href=${encodeURIComponent(url.href)}&show_text=${showText}`,
         layout: isVideo ? null : "facebook-post",
+        aspectRatio: isReel ? "9 / 16" : isVideo ? "16 / 9" : null,
       };
     },
   },
@@ -91,7 +100,7 @@ const embedProviders = [
       return (host === "x.com" || host === "twitter.com") &&
         match &&
         socialPostIdPattern.test(match[1])
-        ? `https://platform.twitter.com/embed/Tweet.html?id=${match[1]}&dnt=true`
+        ? url.href
         : null;
     },
   },
@@ -102,7 +111,10 @@ const embedProviders = [
       const match = url.pathname.match(/^\/@[^/]+\/video\/(\d+)/);
 
       return host === "tiktok.com" && match
-        ? `https://www.tiktok.com/embed/v2/${match[1]}`
+        ? {
+            url: `https://www.tiktok.com/embed/v2/${match[1]}`,
+            aspectRatio: "9 / 16",
+          }
         : null;
     },
   },
@@ -139,11 +151,103 @@ function getMedia(url) {
         name: provider.name,
         url: typeof embed === "string" ? embed : embed.url,
         layout: typeof embed === "string" ? null : embed.layout,
+        aspectRatio: typeof embed === "string" ? null : embed.aspectRatio,
       };
     }
   }
 
   return null;
+}
+
+// Use a [ratio=9:16] suffix for embeds whose dimensions cannot be inferred from the URL.
+function getRequestedAspectRatio(block, match) {
+  const suffix = block
+    .slice(match.index + match[0].length)
+    .match(/^\s+\[ratio=(\d{1,4}):(\d{1,4})\]\s*$/i);
+
+  if (!suffix) {
+    return null;
+  }
+
+  const width = Number(suffix[1]);
+  const height = Number(suffix[2]);
+
+  const ratio = width / height;
+
+  return width > 0 && height > 0 && ratio >= 0.25 && ratio <= 4
+    ? { aspectRatio: `${width} / ${height}`, suffix: suffix[0] }
+    : null;
+}
+
+function loadXWidgets() {
+  if (window.twttr?.widgets) {
+    return Promise.resolve(window.twttr);
+  }
+
+  if (!xWidgetsPromise) {
+    xWidgetsPromise = new Promise((resolve, reject) => {
+      let script = document.querySelector(
+        'script[src="https://platform.twitter.com/widgets.js"]'
+      );
+
+      if (!script) {
+        script = document.createElement("script");
+        script.src = "https://platform.twitter.com/widgets.js";
+        script.async = true;
+        document.head.appendChild(script);
+      }
+
+      script.addEventListener(
+        "load",
+        () => {
+          if (window.twttr?.widgets) {
+            resolve(window.twttr);
+          } else {
+            reject(new Error("X embed widgets were unavailable after loading."));
+          }
+        },
+        { once: true }
+      );
+      script.addEventListener(
+        "error",
+        () => reject(new Error("Failed to load X embed widgets.")),
+        { once: true }
+      );
+    }).catch((error) => {
+      xWidgetsPromise = null;
+      throw error;
+    });
+  }
+
+  return xWidgetsPromise;
+}
+
+function XPostEmbed({ url }) {
+  const postRef = useRef(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    loadXWidgets()
+      .then((twttr) => {
+        if (isMounted && postRef.current) {
+          twttr.widgets.load(postRef.current);
+        }
+      })
+      .catch((error) => {
+        console.error("Unable to render X post embed:", error);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [url]);
+
+  return (
+    <blockquote className="twitter-tweet" ref={postRef}>
+      <a href={url}>View post on X</a>
+    </blockquote>
+  );
 }
 
 // Use the image filename as a basic alt label when no caption is provided.
@@ -176,17 +280,22 @@ function renderMedia(media, url, key) {
   if (media?.type === "embed") {
     return (
       <div
-        className={`rich-content-embed${media.layout ? ` rich-content-embed-${media.layout}` : ""}`}
+        className={`rich-content-embed rich-content-embed-${media.name.toLowerCase()}${media.layout ? ` rich-content-embed-${media.layout}` : ""}`}
         key={key}
       >
-        <iframe
-          src={media.url}
-          title={`${media.name} media`}
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          referrerPolicy="strict-origin-when-cross-origin"
-        />
+        {media.name === "X" ? (
+          <XPostEmbed url={parsedUrl.href} />
+        ) : (
+          <iframe
+            src={media.url}
+            title={`${media.name} media`}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+            style={media.aspectRatio ? { aspectRatio: media.aspectRatio } : undefined}
+          />
+        )}
         <a href={parsedUrl.href} target="_blank" rel="noopener noreferrer">
           Open on {media.name} ↗
         </a>
@@ -292,14 +401,25 @@ function renderParagraph(block, blockIndex) {
     const media = getMedia(url);
 
     if (media) {
+      const requestedRatio =
+        media.type === "embed" ? getRequestedAspectRatio(block, match) : null;
+      const remainder = block.slice(match.index + match[0].length);
+      const textAfterUrl = requestedRatio
+        ? remainder.replace(requestedRatio.suffix, "")
+        : remainder;
+
+      if (requestedRatio) {
+        media.aspectRatio = requestedRatio.aspectRatio;
+      }
+
       const details = (
         block.slice(0, match.index) +
-        block.slice(match.index + match[0].length)
+        textAfterUrl
       ).trim();
 
       return (
         <div
-          className={`rich-content-media-row${details ? " has-details" : ""}`}
+          className={`rich-content-media-row${details ? " has-details" : ""}${media.name === "X" ? " has-x-embed" : ""}`}
           key={blockIndex}
         >
           <div className="rich-content-media">
