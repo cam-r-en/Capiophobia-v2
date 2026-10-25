@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "../client";
+import LoadingIndicator from "../Components/LoadingIndicator";
 import RichContent from "../Components/RichContent";
 import "./Detail.css";
 
@@ -8,8 +9,11 @@ const Victim = () => {
   const { id } = useParams();
   const [person, setPerson] = useState(null);
   const [relatedOfficers, setRelatedOfficers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     let isCurrent = true;
 
     const fetchData = async () => {
@@ -25,6 +29,7 @@ const Victim = () => {
 
       if (victimResult.error) {
         console.error("Error fetching victim:", victimResult.error);
+        setHasError(true);
       } else {
         setPerson(victimResult.data);
       }
@@ -36,6 +41,7 @@ const Victim = () => {
           officersResult.data.map((row) => row.officer).filter(Boolean)
         );
       }
+      setIsLoading(false);
     };
 
     fetchData();
@@ -44,7 +50,14 @@ const Victim = () => {
     };
   }, [id]);
 
-  if (!person) return <p>Loading...</p>;
+  if (isLoading) return <LoadingIndicator label="Loading victim" />;
+  if (!person) {
+    return (
+      <p role="alert">
+        {hasError ? "This victim could not be loaded." : "This victim does not exist."}
+      </p>
+    );
+  }
 
   return (
     <main className="detail-page">

@@ -10,6 +10,7 @@ function Home() {
   const [victims, setVictims] = useState([]);
   const [officers, setOfficers] = useState([]);
   const [stories, setStories] = useState([]);
+  const [storiesError, setStoriesError] = useState("");
   const [featuredStory, setFeaturedStory] = useState(null); //Most recent article/video/story published
 
   useEffect(() => {
@@ -44,18 +45,30 @@ function Home() {
         .limit(5);
 
       // stories
-      const { data: storiesData } = await supabase
+      const { data: storiesData, error: storiesFetchError } = await supabase
         .from("stories")
-        .select("*")
+        .select("id, user, written, created_at")
         .eq("is_posted", true)
         .order("created_at", { ascending: false })
         .limit(25);
+
+      if (storiesFetchError) {
+        console.error(
+          "Error fetching published stories for the home page:",
+          storiesFetchError,
+        );
+        setStoriesError(
+          "Community stories could not be loaded. Please try again later.",
+        );
+      } else {
+        setStoriesError("");
+      }
 
       setVideos(videosData || []);
       setArticles(articlesData || []);
       setVictims(victimsData || []);
       setOfficers(officersData || []);
-      setStories(storiesData || []);
+      setStories(storiesFetchError ? [] : storiesData || []);
 
       // Keep the featured card focused on the latest video or article.
       const newestVideo = videosData?.[0];
@@ -74,6 +87,8 @@ function Home() {
 
     fetchContent();
   }, []);
+
+  const featuredStoryUser = stories[0]?.user?.trim();
 
   return (
     <>
@@ -231,8 +246,18 @@ function Home() {
               Have a story to share?{" "}
               <Link to="/submit-story">Submit it for review.</Link>
             </p>
+            {storiesError && (
+              <p className="stories-load-error" role="alert">
+                {storiesError}
+              </p>
+            )}
             <section id="story-container">
               <div className="story-container">
+                {!storiesError && stories.length === 0 && (
+                  <p className="stories-empty">
+                    No approved community stories yet.
+                  </p>
+                )}
                 {stories[0] && (
                   <Link
                     className="featured-story community-story-feature"
@@ -240,7 +265,10 @@ function Home() {
                   >
                     <span className="featured-story-copy">
                       <span className="featured-story-title">
-                        Shared by {stories[0].user || "Anonymous"}
+                        {featuredStoryUser &&
+                        featuredStoryUser.toLowerCase() !== "anonymous"
+                          ? `Shared by ${featuredStoryUser}`
+                          : "Shared Anonymously"}
                       </span>
                       <span className="featured-cstory-meta">
                         Most recent community story ·{" "}
@@ -271,6 +299,7 @@ function Home() {
 
         {/* Footer Section */}
         <div className="footer-container">
+          <h3> Socials </h3>
           <div className="socials">
             <a
               href="https://github.com/cam-r-en"
@@ -279,14 +308,16 @@ function Home() {
             >
               <img
                 src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                alt="GitHub"
+                alt=""
               />
+              <span>GitHub</span>
             </a>
             <a href="https://x.com/CAM_R_EN" target="_blank" rel="noreferrer">
               <img
                 src="https://pngimg.com/uploads/x_logo/x_logo_PNG19.png"
-                alt="X_Twitter"
+                alt=""
               />
+              <span>X</span>
             </a>
             <a
               href="https://www.instagram.com/dgtlwb.cam/"
@@ -295,8 +326,31 @@ function Home() {
             >
               <img
                 src="https://assets.streamlinehq.com/image/private/w_240,h_240,ar_1/f_auto/v1/icons/logo/instagram-logo-i8m1gphmzwyfw22g0xdy.png/instagram-logo-52glddxszoh3pbwuo3z8fd.png?_a=DATAiZAAZAA0"
-                alt="Instagram"
+                alt=""
               />
+              <span>Instagram</span>
+            </a>
+            <a
+              href="https://www.tiktok.com/@oneextracam"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src="https://static.vecteezy.com/system/resources/thumbnails/016/716/450/small_2x/tiktok-icon-free-png.png"
+                alt=""
+              />
+              <span>TikTok</span>
+            </a>
+            <a
+              href="https://www.youtube.com/@dgtlwebCam"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/c4/logo-youtube-9uz0vchu8rnpddaet2viom.png/logo-youtube-x5qkxw19tzce323872cxy5.png?_a=DATAiZAAZAA0"
+                alt=""
+              />
+              <span>YouTube</span>
             </a>
           </div>
         </div>

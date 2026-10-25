@@ -11,9 +11,6 @@ body {
   color: var(--text-main);
   padding: 0;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  width: 100%;
   font-family: var(--font-sans);
   overflow-x: clip;
 }
@@ -289,11 +286,21 @@ section {
 .article-container,
 .video-container {
   display: flex;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
   overflow-x: auto;
   white-space: nowrap;
   gap: 20px;
   padding: 10px 0;
   scroll-snap-type: x mandatory;
+}
+
+.victim-container > a,
+.officer-container > a,
+.article-container > a,
+.video-container > a {
+  flex: 0 0 auto;
 }
 
 /* Content Cards */
@@ -302,7 +309,7 @@ section {
   width: 270px;
   height: 230px;
   flex: 0 0 auto;
-  background-color: var(--bg-surface);
+  background-color: var(--bg-primary);
   border: 1px solid var(--border-color);
   border-radius: 4px;
   padding: 12px;
@@ -317,7 +324,7 @@ section {
 .c-item:hover {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   transform: translateY(-3px);
-  background-color: var(--bg-surface);
+  background-color: var(--accent-blue-dark);
 }
 .c-item img {
   width: 100%;
@@ -330,7 +337,7 @@ section {
   font-family: var(--font-serif);
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text-main);
+  color: #d6dee8;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -353,6 +360,14 @@ section {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+.stories-load-error,
+.stories-empty {
+  margin: 16px 0;
+  color: #f3f4f6;
+}
+.stories-load-error {
+  color: #ffd2d2;
 }
 
 .story-container {
@@ -424,17 +439,41 @@ section {
 .footer-container {
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
+  margin-top: -5px;
+}
+.footer-container h3 {
+  align-self: center;
+  text-decoration: underline;
+  margin-bottom: 10px;
 }
 .socials {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 5px;
+  gap: 25px;
+}
+.socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 0;
+  color: var(--text-main);
+  text-decoration: none;
 }
 .socials img {
-  width: 30px;
-  height: auto;
+  display: block;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+.socials a:hover {
+  color: var(--accent-red);
+}
+.socials a:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid var(--accent-red);
+  outline-offset: 3px;
 }
 
 /* Content Library More Buttons */
@@ -569,6 +608,104 @@ section {
   }
 }
 
+/* Large Desktop Layout */
+@media (min-width: 1440px) {
+  .home-page {
+    max-width: 1600px;
+  }
+
+  .header-container,
+  .feature-container,
+  section {
+    padding-right: 80px;
+    padding-left: 80px;
+  }
+
+  .navbar ul {
+    padding-right: 80px;
+    padding-left: 80px;
+  }
+
+  .featured-story {
+    max-width: 1200px;
+    gap: 32px;
+    padding: 24px;
+  }
+
+  .featured-story-image {
+    max-height: 320px;
+  }
+
+  .victim-container,
+  .officer-container,
+  .article-container,
+  .video-container {
+    gap: 28px;
+  }
+
+  .c-item {
+    width: 320px;
+    height: 270px;
+  }
+
+  .c-item img {
+    height: 165px;
+  }
+
+  .story-container {
+    gap: 20px;
+  }
+}
+
+/* Extra-Wide Desktop Layout */
+@media (min-width: 1920px) {
+  .home-page {
+    max-width: 1760px;
+  }
+
+  .header-container,
+  .feature-container,
+  section {
+    padding-right: 100px;
+    padding-left: 100px;
+  }
+
+  .navbar ul {
+    padding-right: 100px;
+    padding-left: 100px;
+  }
+
+  #title {
+    font-size: 4.5rem;
+  }
+
+  .featured-story {
+    max-width: 1320px;
+    gap: 40px;
+    padding: 28px;
+  }
+
+  .featured-story-image {
+    max-height: 360px;
+  }
+
+  .victim-container,
+  .officer-container,
+  .article-container,
+  .video-container {
+    gap: 32px;
+  }
+
+  .c-item {
+    width: 340px;
+    height: 290px;
+  }
+
+  .c-item img {
+    height: 180px;
+  }
+}
+
 /* Tablet and Mobile Home Layout */
 @media (max-width: 850px) {
   .home-page {
@@ -579,6 +716,10 @@ section {
   .feature-container,
   section {
     padding: 15px 20px;
+  }
+
+  .socials {
+    gap: 15px;
   }
 
   #title {

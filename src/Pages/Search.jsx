@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { supabase } from "../client";
+import LoadingIndicator from "../Components/LoadingIndicator";
 import SearchForm from "../Components/SearchForm";
 import "./Search.css";
 
@@ -90,7 +91,7 @@ function SearchPage() {
 
       <h1>Search Results for "{query}"</h1>
 
-      {loading && <p>Loading...</p>}
+      {loading && <LoadingIndicator label="Loading search results" />}
 
       {!loading && results.length === 0 && <p>No results found.</p>}
 
@@ -149,6 +150,57 @@ function SearchPage() {
               ))}
             </div>
           )}
+          {/* Footer Section */}
+          <div className="footer-container">
+            <div className="socials">
+              <a
+                href="https://github.com/cam-r-en"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                  alt="GitHub"
+                />
+              </a>
+              <a href="https://x.com/CAM_R_EN" target="_blank" rel="noreferrer">
+                <img
+                  src="https://pngimg.com/uploads/x_logo/x_logo_PNG19.png"
+                  alt="X_Twitter"
+                />
+              </a>
+              <a
+                href="https://www.instagram.com/dgtlwb.cam/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  src="https://assets.streamlinehq.com/image/private/w_240,h_240,ar_1/f_auto/v1/icons/logo/instagram-logo-i8m1gphmzwyfw22g0xdy.png/instagram-logo-52glddxszoh3pbwuo3z8fd.png?_a=DATAiZAAZAA0"
+                  alt="Instagram"
+                />
+              </a>
+              <a
+                href="https://www.tiktok.com/@oneextracam"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  src="https://static.vecteezy.com/system/resources/thumbnails/016/716/450/small_2x/tiktok-icon-free-png.png"
+                  alt="TikTok"
+                />
+              </a>
+              <a
+                href="https://www.youtube.com/@dgtlwebCam"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/c4/logo-youtube-9uz0vchu8rnpddaet2viom.png/logo-youtube-x5qkxw19tzce323872cxy5.png?_a=DATAiZAAZAA0"
+                  alt="YouTube"
+                />
+              </a>
+            </div>
+          </div>
         </div>
       )}
     </div>

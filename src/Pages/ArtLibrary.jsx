@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../client";
+import LoadingIndicator from "../Components/LoadingIndicator";
 import Articles from "../Components/Articles"; // assuming this is your component for rendering a video
 import { Link } from "react-router-dom";
 import "./Library.css";
 
 const ArtLibrary = () => {
   const [arts, setArts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchArts = async () => {
@@ -15,10 +18,12 @@ const ArtLibrary = () => {
         .order("created_at", { ascending: false });
 
       if (error) {
-        console.error("Error fetching videos:", error);
+        console.error("Error fetching articles:", error);
+        setErrorMessage("Articles could not be loaded. Please try again later.");
       } else {
-        setArts(data);
+        setArts(data || []);
       }
+      setIsLoading(false);
     };
 
     fetchArts();
@@ -39,8 +44,12 @@ const ArtLibrary = () => {
       </div>
       <div className="page">
         <div className="ReadCon">
-          {arts.length === 0 ? (
-            <p>Loading...</p>
+          {isLoading ? (
+            <LoadingIndicator label="Loading articles" />
+          ) : errorMessage ? (
+            <p role="alert">{errorMessage}</p>
+          ) : arts.length === 0 ? (
+            <p>No articles have been added yet.</p>
           ) : (
             arts.map((art) => (
               <Link to={`/article/${art.id}`}>

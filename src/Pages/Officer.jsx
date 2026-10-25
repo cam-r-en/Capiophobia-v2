@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "../client";
+import LoadingIndicator from "../Components/LoadingIndicator";
 import RichContent from "../Components/RichContent";
 import "./Detail.css";
 
@@ -8,8 +9,11 @@ const Officer = () => {
   const { id } = useParams();
   const [person, setPerson] = useState(null);
   const [relatedVictims, setRelatedVictims] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     let isCurrent = true;
 
     const fetchData = async () => {
@@ -25,6 +29,7 @@ const Officer = () => {
 
       if (officerResult.error) {
         console.error("Error fetching officer:", officerResult.error);
+        setHasError(true);
       } else {
         setPerson(officerResult.data);
       }
@@ -36,6 +41,7 @@ const Officer = () => {
           victimsResult.data.map((row) => row.victim).filter(Boolean)
         );
       }
+      setIsLoading(false);
     };
 
     fetchData();
@@ -44,7 +50,14 @@ const Officer = () => {
     };
   }, [id]);
 
-  if (!person) return <p>Loading...</p>;
+  if (isLoading) return <LoadingIndicator label="Loading officer" />;
+  if (!person) {
+    return (
+      <p role="alert">
+        {hasError ? "This officer could not be loaded." : "This officer does not exist."}
+      </p>
+    );
+  }
 
   return (
     <main className="detail-page">
@@ -95,6 +108,7 @@ const Officer = () => {
           <p>No victims are linked to this officer.</p>
         )}
       </section>
+      
     </main>
   );
 };

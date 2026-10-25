@@ -113,6 +113,65 @@
   color: var(--text-muted, #666666);
 }
 
+/* Large Desktop Search Layout */
+@media (min-width: 1440px) {
+  .search-page {
+    max-width: 1400px;
+  }
+
+  .search-page .intro {
+    padding-right: 64px;
+    padding-left: 64px;
+  }
+
+  .search-page > h1 {
+    margin-right: 64px;
+    margin-left: 64px;
+  }
+
+  .results-container {
+    gap: 32px;
+    padding-right: 64px;
+    padding-left: 64px;
+  }
+
+  .results-section {
+    gap: 16px;
+  }
+
+  .result-item {
+    padding: 20px 24px;
+  }
+}
+
+/* Extra-Wide Desktop Search Layout */
+@media (min-width: 1920px) {
+  .search-page {
+    max-width: 1600px;
+  }
+
+  .search-page .intro {
+    padding-right: 80px;
+    padding-left: 80px;
+  }
+
+  .search-page > h1 {
+    margin-right: 80px;
+    margin-left: 80px;
+    font-size: 2rem;
+  }
+
+  .results-container {
+    gap: 36px;
+    padding-right: 80px;
+    padding-left: 80px;
+  }
+
+  .results-section h2 {
+    font-size: 1.6rem;
+  }
+}
+
 /* Tablet Search Layout */
 @media (max-width: 850px) {
   .search-page .intro {

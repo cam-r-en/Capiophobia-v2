@@ -1,15 +1,18 @@
 /* Library Page Header */
 .intro {
   display: flex;
+  flex: 0 0 80px;
   align-items: center;
   gap: 16px;
-  width: 100%;
+  box-sizing: border-box;
+  width: min(calc(100% - 32px), 1400px);
+  height: 80px;
   min-height: 80px;
+  max-height: 80px;
   padding: 12px 40px;
   border-bottom: 3px solid var(--accent-blue, #48627d);
   background-color: var(--bg-surface, #ffffff);
-  margin-bottom: 5px;
-  margin-top: 5px;
+  margin: 5px auto;
 }
 .intro h1 {
   margin: 0;
@@ -19,11 +22,13 @@
 }
 
 img#shead-img {
+  flex: 0 0 48px;
   width: 48px;
-  height: auto;
+  height: 48px;
   margin: 0;
   border: none;
   border-radius: 0;
+  object-fit: contain;
 }
 
 /* Library Page and Result List */
@@ -36,59 +41,11 @@ img#shead-img {
 
 .ReadCon {
   display: grid;
-  justify-items: center;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 16px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-/* People Library Cards */
-.ReadCon > .people-library-card {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
-  min-height: 150px;
-  padding: 16px;
-  overflow: hidden;
-  border: 1px solid var(--border-color, #dce2e8);
-  border-radius: 4px;
-  background-color: var(--bg-surface, #ffffff);
-  color: inherit;
-  text-decoration: none;
-  transition:
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
-}
-.ReadCon > .people-library-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-}
-
-.people-library-card img,
-.people-library-image-placeholder {
-  flex: 0 0 180px;
-  width: 180px;
-  height: 118px;
-  border-radius: 2px;
-  object-fit: cover;
-}
-
-.people-library-image-placeholder {
-  display: grid;
-  place-items: center;
-  border: 1px dashed var(--border-color, #dce2e8);
-  background-color: var(--bg-primary, #e9eef3);
-  color: var(--text-muted, #687386);
-  font-size: 0.85rem;
-}
-
-.people-library-name {
-  color: var(--text-main, #1f2937);
-  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
-  font-size: 1.1rem;
-  font-weight: 700;
 }
 
 /* Library Navigation Button */
@@ -119,8 +76,46 @@ img#shead-img {
   color: #ffffff;
 }
 
+/* Large Desktop Library Layout */
+@media (min-width: 1440px) {
+  .intro {
+    padding-right: 64px;
+    padding-left: 64px;
+  }
+
+  .page {
+    padding: 32px 64px 48px;
+  }
+
+  .ReadCon {
+    max-width: 1400px;
+    gap: 20px;
+  }
+}
+
+/* Extra-Wide Desktop Library Layout */
+@media (min-width: 1920px) {
+  .intro {
+    padding-right: 80px;
+    padding-left: 80px;
+  }
+
+  .page {
+    padding: 40px 80px 56px;
+  }
+
+  .ReadCon {
+    max-width: 1560px;
+    gap: 24px;
+  }
+}
+
 /* Tablet Library Layout */
 @media (max-width: 850px) {
+  .ReadCon {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .intro {
     padding: 12px 20px;
   }
@@ -135,7 +130,11 @@ img#shead-img {
 }
 
 /* Small Mobile Library Layout */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  .ReadCon {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .intro {
     gap: 10px;
   }
@@ -150,18 +149,8 @@ img#shead-img {
   }
 }
 
-/* Mobile People Cards */
-@media (max-width: 600px) {
-  .ReadCon > .people-library-card {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .people-library-card img,
-  .people-library-image-placeholder {
-    flex-basis: auto;
-    width: 100%;
-    height: 180px;
+@media (max-width: 380px) {
+  .ReadCon {
+    grid-template-columns: 1fr;
   }
 }

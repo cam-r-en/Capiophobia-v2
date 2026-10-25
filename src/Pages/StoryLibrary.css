@@ -64,29 +64,34 @@
 
 /* Community Story Cards */
 .community-story {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   min-height: 220px;
   padding: 20px;
   border: 1px solid var(--border-color, #dce2e8);
-  border-left: 4px solid var(--accent-blue, #48627d);
+  border-left: 4px solid #1f2937;
   border-radius: 4px;
   overflow-wrap: anywhere;
-  background-color: var(--bg-surface, #ffffff);
-}
-
-.community-story-link {
-  color: var(--text-main, #1f2937);
+  background-color: var(--accent-blue, #48627d);
+  cursor: pointer;
   text-decoration: none;
 }
 
-.community-story-link h2 {
+.community-story h2 {
   margin: 0 0 12px;
   font-family: var(--font-serif, Georgia, "Times New Roman", serif);
   font-size: 1.25rem;
+  color: #dce2e8;
 }
 
-.community-story-link:hover {
+.community-story:hover h2 {
   color: var(--accent-red, #a34a50);
+}
+
+.community-story:focus-visible {
+  outline: 3px solid var(--accent-red, #a34a50);
+  outline-offset: 3px;
 }
 
 .community-story-text {
@@ -103,13 +108,66 @@
 
 .community-story time {
   display: block;
-  margin-top: 14px;
-  color: var(--text-muted, #687386);
+  margin-top: auto;
+  padding-top: 14px;
+  color: #dce2e8;
   font-size: 0.85rem;
+  text-align: end;
 }
 
 .community-stories-error {
   color: var(--accent-red, #a34a50);
+}
+
+/* Large Desktop Community Stories Layout */
+@media (min-width: 1440px) {
+  .community-stories-page {
+    max-width: 1400px;
+  }
+
+  .community-stories-header {
+    padding-right: 64px;
+    padding-left: 64px;
+  }
+
+  .community-stories-list {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 24px;
+    width: min(100% - 128px, 1260px);
+  }
+
+  .community-story {
+    min-height: 260px;
+    padding: 24px;
+  }
+
+  .community-story-text {
+    -webkit-line-clamp: 7;
+    line-clamp: 7;
+  }
+}
+
+/* Extra-Wide Desktop Community Stories Layout */
+@media (min-width: 1920px) {
+  .community-stories-page {
+    max-width: 1600px;
+  }
+
+  .community-stories-header {
+    padding-right: 80px;
+    padding-left: 80px;
+  }
+
+  .community-stories-list {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 28px;
+    width: min(100% - 160px, 1440px);
+  }
+
+  .community-story {
+    min-height: 280px;
+    padding: 28px;
+  }
 }
 
 /* Mobile Community Stories Header */

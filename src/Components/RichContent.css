@@ -100,6 +100,39 @@
   font-size: 0.9rem;
 }
 
+/* Increase Rich Media Limits on Large Displays */
+@media (min-width: 1440px) {
+  .rich-content-media-row {
+    grid-template-columns: minmax(0, 1.8fr) minmax(260px, 0.7fr);
+    gap: 36px;
+    margin: 32px 0;
+  }
+
+  .rich-content-image {
+    max-height: 560px;
+  }
+
+  .rich-content-embed-x iframe {
+    min-height: 380px;
+  }
+}
+
+/* Increase Rich Media Limits on Extra-Wide Displays */
+@media (min-width: 1920px) {
+  .rich-content-media-row {
+    gap: 44px;
+    margin: 40px 0;
+  }
+
+  .rich-content-image {
+    max-height: 640px;
+  }
+
+  .rich-content-embed-x iframe {
+    min-height: 440px;
+  }
+}
+
 /* Stack media and its description on narrower screens. */
 @media (max-width: 700px) {
   .rich-content-media-row,

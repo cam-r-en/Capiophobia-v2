@@ -1,6 +1,7 @@
 /* Library Card Layout */
 .content {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 20px;
   box-sizing: border-box;
@@ -11,120 +12,84 @@
   overflow: hidden;
   border: 1px solid var(--border-color, #e5e7eb);
   border-radius: 4px;
-  background-color: var(--bg-surface, #ffffff);
+  background-color: var(--bg-surface, #335287);
   text-align: left;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
-
-/* Card Hover State */
 .content:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
-/* Card Media and Image Placeholders */
-.content .tbnl,
-.content .vid-img,
-.content .pimg,
-.content .pimg-placeholder {
-  flex: 0 0 180px;
-  width: 180px;
-  height: 118px;
-  border-radius: 2px;
-  object-fit: cover;
+.ReadCon > a {
+  color: inherit;
+  text-decoration: none;
 }
 
-.content .pimg-placeholder {
-  display: grid;
-  place-items: center;
-  border: 1px dashed var(--border-color, #dce2e8);
-  background-color: var(--bg-primary, #f3f5f7);
-  color: var(--text-muted, #687386);
-  font-size: 0.85rem;
+.content.media-content.list,
+.content.people-content.list {
+  align-items: stretch;
+  gap: 0;
+  width: min(100%, 200px);
+  min-height: 0;
+  padding: 0;
 }
 
-/* Card Titles and People Details */
-.content .title {
-  flex: 1;
+.content.media-content.list .title,
+.content.people-content.list .pname {
+  flex: 0 0 auto;
   margin: 0;
+  padding: 16px;
   color: var(--text-main, #111111);
   font-family: var(--font-serif, Georgia, "Times New Roman", serif);
-  font-size: 1.1rem;
   font-weight: 700;
   line-height: 1.4;
 }
 
-.content .pname {
-  flex: 1;
-  margin: 0;
-  color: var(--text-main, #1f2937);
-  font-family: var(--font-serif, Georgia, "Times New Roman", serif);
-  font-size: 1.1rem;
-  line-height: 1.4;
+.content.media-content.list .title {
+  font-size: 12px;
 }
 
-.content .pbio {
-  flex-basis: 100%;
-  margin: 0;
+.content.people-content.list .pname {
+  order: 1;
+  align-self: center;
+  font-size: 1.0rem;
+}
+
+.content.media-content.list .tbnl {
+  order: 0;
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  border-radius: 4px 4px 0 0;
+  object-fit: cover;
+}
+.content.people-content.list .pimg {
+  order: 0;
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-width: none;
+  border-radius: 4px 4px 0 0;
+  object-fit: cover;
+}
+
+.content.people-content.list .pimg-placeholder {
+  order: 0;
+  display: grid;
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  place-items: center;
+  border-radius: 4px 4px 0 0;
+  border: 1px dashed var(--border-color, #dce2e8);
+  background-color: var(--bg-primary, #f3f5f7);
   color: var(--text-muted, #687386);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-.content .creator,
-.content .author,
-.content .desc,
-.content .vlink,
-.content .created-at {
-  margin: 0;
-  color: var(--text-muted, #666666);
-  font-family: var(--font-sans, Arial, sans-serif);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-/* Card Attribution Links */
-.content .creator,
-.content .author {
-  font-style: italic;
-}
-
-.content .vlink {
-  color: var(--accent-red, #a34a50);
-  text-decoration: none;
-}
-
-.content .vlink:hover {
-  text-decoration: underline;
-}
-
-/* Expanded Card Layout */
-.content.detailed {
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-
-.content.detailed .desc {
-  flex-basis: 100%;
-  color: var(--text-main, #111111);
-}
-
-/* Mobile Card Layout */
-@media (max-width: 600px) {
-  .content {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .content .tbnl,
-  .content .vid-img,
-  .content .pimg,
-  .content .pimg-placeholder {
-    flex-basis: auto;
-    width: 100%;
-    height: 180px;
-  }
+  font-size: 0.85rem;
 }

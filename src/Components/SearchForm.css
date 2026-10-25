@@ -65,3 +65,25 @@
   max-width: 640px;
   margin: 0 auto;
 }
+
+/* Large Desktop Search Form */
+@media (min-width: 1440px) {
+  .search-form {
+    max-width: 640px;
+  }
+
+  .search-container .search-form {
+    max-width: 800px;
+  }
+}
+
+/* Extra-Wide Desktop Search Form */
+@media (min-width: 1920px) {
+  .search-form {
+    max-width: 760px;
+  }
+
+  .search-container .search-form {
+    max-width: 960px;
+  }
+}

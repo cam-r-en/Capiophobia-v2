@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../client";
+import LoadingIndicator from "../Components/LoadingIndicator";
 import Officers from "../Components/Officers";
 import { Link } from "react-router-dom";
 import "./Library.css";
 
 const OffLibrary = () => {
   const [officer, setOfficer] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchVids = async () => {
@@ -16,9 +19,11 @@ const OffLibrary = () => {
 
       if (error) {
         console.error("Error fetching officers:", error);
+        setErrorMessage("Officers could not be loaded. Please try again later.");
       } else {
-        setOfficer(data);
+        setOfficer(data || []);
       }
+      setIsLoading(false);
     };
 
     fetchVids();
@@ -39,8 +44,12 @@ const OffLibrary = () => {
       </div>
       <div className="page">
         <div className="ReadCon">
-          {officer.length === 0 ? (
-            <p>Loading...</p>
+          {isLoading ? (
+            <LoadingIndicator label="Loading officers" />
+          ) : errorMessage ? (
+            <p role="alert">{errorMessage}</p>
+          ) : officer.length === 0 ? (
+            <p>No officers have been added yet.</p>
           ) : (
             officer.map((off) => (
               <Link to={`/officers/${off.id}`} key={off.id}>

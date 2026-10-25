@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "../client";
+import LoadingIndicator from "../Components/LoadingIndicator";
 import RichContent from "../Components/RichContent";
 import "./Detail.css";
 
@@ -19,8 +20,11 @@ const formatDate = (date) => {
 const Article = () => {
   const { id } = useParams();
   const [article, setArticle] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchArticle = async () => {
       const { data, error } = await supabase
         .from("articles")
@@ -30,15 +34,24 @@ const Article = () => {
 
       if (error) {
         console.error("Error fetching article:", error);
+        setHasError(true);
       } else {
         setArticle(data);
       }
+      setIsLoading(false);
     };
 
     fetchArticle();
   }, [id]);
 
-  if (!article) return <p>Loading...</p>;
+  if (isLoading) return <LoadingIndicator label="Loading article" />;
+  if (!article) {
+    return (
+      <p role="alert">
+        {hasError ? "This article could not be loaded." : "This article does not exist."}
+      </p>
+    );
+  }
 
   return (
     <>
@@ -72,6 +85,7 @@ const Article = () => {
           <RichContent text={article.essay} className="c-description" />
         </div>
       </div>
+      
     </>
   );
 };

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../client";
+import LoadingIndicator from "../Components/LoadingIndicator";
 import Videos from "../Components/Videos";
 import { Link } from "react-router-dom";
 import "./Library.css";
 
 const VidLibrary = () => {
   const [vids, setVids] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchVids = async () => {
@@ -16,9 +19,11 @@ const VidLibrary = () => {
 
       if (error) {
         console.error("Error fetching videos:", error);
+        setErrorMessage("Videos could not be loaded. Please try again later.");
       } else {
-        setVids(data);
+        setVids(data || []);
       }
+      setIsLoading(false);
     };
 
     fetchVids();
@@ -39,8 +44,12 @@ const VidLibrary = () => {
       </div>
       <div className="page">
         <div className="ReadCon">
-          {vids.length === 0 ? (
-            <p>Loading...</p>
+          {isLoading ? (
+            <LoadingIndicator label="Loading videos" />
+          ) : errorMessage ? (
+            <p role="alert">{errorMessage}</p>
+          ) : vids.length === 0 ? (
+            <p>No videos have been added yet.</p>
           ) : (
             vids.map((vid) => (
               <Link to={`/video/${vid.id}`}>

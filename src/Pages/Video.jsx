@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "../client";
+import LoadingIndicator from "../Components/LoadingIndicator";
 import RichContent from "../Components/RichContent";
 import "./Detail.css";
 
@@ -19,8 +20,11 @@ const formatDate = (date) => {
 const Video = () => {
   const { id } = useParams();
   const [video, setVideo] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchVideo = async () => {
       const { data, error } = await supabase
         .from("videos")
@@ -30,15 +34,24 @@ const Video = () => {
 
       if (error) {
         console.error("Error fetching video:", error);
+        setHasError(true);
       } else {
         setVideo(data);
       }
+      setIsLoading(false);
     };
 
     fetchVideo();
   }, [id]);
 
-  if (!video) return <p>Loading...</p>;
+  if (isLoading) return <LoadingIndicator label="Loading video" />;
+  if (!video) {
+    return (
+      <p role="alert">
+        {hasError ? "This video could not be loaded." : "This video does not exist."}
+      </p>
+    );
+  }
 
   return (
     <>

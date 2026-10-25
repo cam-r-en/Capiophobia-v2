@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../client";
-import "./MoreStories.css";
+import LoadingIndicator from "../Components/LoadingIndicator";
+import "./StoryLibrary.css";
 
-const MoreStories = () => {
+const getStoryAttribution = (user) => {
+  const name = user?.trim();
+  return name && name.toLowerCase() !== "anonymous"
+    ? `Shared by ${name}`
+    : "Shared Anonymously";
+};
+
+const StoryLibrary = () => {
   const [stories, setStories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -54,7 +62,7 @@ const MoreStories = () => {
       </header>
 
       <section className="community-stories-list" aria-live="polite">
-        {isLoading && <p>Loading stories...</p>}
+        {isLoading && <LoadingIndicator label="Loading stories" />}
         {!isLoading && errorMessage && (
           <p className="community-stories-error" role="alert">
             {errorMessage}
@@ -66,21 +74,24 @@ const MoreStories = () => {
         {!isLoading &&
           !errorMessage &&
           stories.map((story) => (
-            <article className="community-story" key={story.id}>
-              <Link className="community-story-link" to={`/story/${story.id}`}>
-                <h2>Story from {story.user || "Anonymous"}</h2>
-              </Link>
+            <Link
+              className="community-story"
+              to={`/story/${story.id}`}
+              key={story.id}
+              aria-label={`Read story. ${getStoryAttribution(story.user)}`}
+            >
+              <h2>{getStoryAttribution(story.user)}</h2>
               <p className="community-story-text">{story.written}</p>
               {story.created_at && (
                 <time dateTime={story.created_at}>
                   {new Date(story.created_at).toLocaleDateString()}
                 </time>
               )}
-            </article>
+            </Link>
           ))}
       </section>
     </main>
   );
 };
 
-export default MoreStories;
+export default StoryLibrary;
