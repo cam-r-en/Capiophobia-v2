@@ -13,7 +13,6 @@ const socialPostIdPattern = /^\d+$/;
 let xWidgetsPromise;
 
 // Each provider converts its supported share URL into a safe embed URL.
-// Add a provider here to extend media support without changing the renderer.
 const embedProviders = [
   {
     name: "YouTube",
@@ -138,7 +137,19 @@ function getMedia(url) {
     return null;
   }
 
-  if (imageExtensionPattern.test(parsedUrl.pathname)) {
+  const isScene7Image =
+    parsedUrl.hostname.endsWith(".scene7.com") &&
+    parsedUrl.pathname.includes("/is/image/");
+  const isGoogleImageThumbnail =
+    parsedUrl.hostname.startsWith("encrypted-tbn") &&
+    parsedUrl.hostname.endsWith(".gstatic.com") &&
+    parsedUrl.pathname === "/images";
+
+  if (
+    imageExtensionPattern.test(parsedUrl.pathname) ||
+    isScene7Image ||
+    isGoogleImageThumbnail
+  ) {
     return { type: "image", url: parsedUrl.href };
   }
 
@@ -255,7 +266,10 @@ function getImageAlt(url) {
   const filename = new URL(url).pathname.split("/").pop() || "Shared image";
 
   try {
-    return decodeURIComponent(filename).replace(/\.[^.]+$/, "").replace(/[-_]/g, " ");
+    const decodedFilename = decodeURIComponent(filename);
+    return imageExtensionPattern.test(decodedFilename)
+      ? decodedFilename.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ")
+      : "Shared image";
   } catch {
     return "Shared image";
   }
@@ -290,6 +304,7 @@ function renderMedia(media, url, key) {
             src={media.url}
             title={`${media.name} media`}
             loading="lazy"
+            scrolling={media.name === "TikTok" ? "no" : undefined}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             referrerPolicy="strict-origin-when-cross-origin"
@@ -419,7 +434,7 @@ function renderParagraph(block, blockIndex) {
 
       return (
         <div
-          className={`rich-content-media-row${details ? " has-details" : ""}${media.name === "X" ? " has-x-embed" : ""}`}
+          className={`rich-content-media-row${details ? " has-details" : ""}${media.name === "X" ? " has-x-embed" : ""}${media.name === "TikTok" ? " has-tiktok-embed" : ""}`}
           key={blockIndex}
         >
           <div className="rich-content-media">

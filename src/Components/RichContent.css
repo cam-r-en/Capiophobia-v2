@@ -18,17 +18,22 @@
   display: grid;
   grid-template-columns: minmax(0, 1.7fr) minmax(220px, 0.7fr);
   align-items: center;
-  gap: 28px;
+  gap: clamp(16px, 2vw, 28px);
   margin: 24px 0;
+}
+
+.rich-content-media-row.has-x-embed {
+  grid-template-columns: minmax(0, 550px) minmax(0, 1fr);
+  gap: 20px;
+}
+
+.rich-content-media-row.has-tiktok-embed {
+  grid-template-columns: minmax(0, 325px) minmax(0, 1fr);
+  gap: 20px;
 }
 
 /* Use the available width for media blocks that have no accompanying text. */
 .rich-content-media-row:not(.has-details) {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-/* Give X posts full width so the post and any accompanying text aren't squeezed. */
-.rich-content-media-row.has-x-embed {
   grid-template-columns: minmax(0, 1fr);
 }
 
@@ -52,7 +57,8 @@
 /* Keep linked images responsive and within a sensible maximum height. */
 .rich-content-image {
   display: block;
-  width: 100%;
+  width: auto;
+  height: auto;
   max-width: 100%;
   max-height: 480px;
   margin: 20px auto;
@@ -106,10 +112,17 @@
   border-radius: 15px;
 }
 
+.rich-content-embed-tiktok {
+  max-width: 325px;
+  overflow: hidden;
+}
+
 .rich-content-embed-tiktok iframe {
-  width: min(100%, 325px);
+  width: 100%;
+  max-width: 325px;
   margin: 0 auto;
   aspect-ratio: 9 / 16;
+  overflow: hidden;
 }
 
 .rich-content-embed-facebook-post iframe {
@@ -128,7 +141,6 @@
 @media (min-width: 1440px) {
   .rich-content-media-row {
     grid-template-columns: minmax(0, 1.8fr) minmax(260px, 0.7fr);
-    gap: 36px;
     margin: 32px 0;
   }
 
@@ -141,7 +153,6 @@
 /* Increase Rich Media Limits on Extra-Wide Displays */
 @media (min-width: 1920px) {
   .rich-content-media-row {
-    gap: 44px;
     margin: 40px 0;
   }
 
@@ -155,6 +166,16 @@
 @media (max-width: 700px) {
   .rich-content-media-row,
   .rich-content-media-row:not(.has-details) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .rich-content-media-row.has-x-embed {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .rich-content-media-row.has-tiktok-embed {
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
