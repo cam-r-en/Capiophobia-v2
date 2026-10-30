@@ -31,9 +31,8 @@ In Spring 2025, I attended another intermediate course for Web Development, also
 - All written media (videos, articles, and people) written and submitted by me.
 
 ## Soon To Be Added:
-- [ ] Mobile Hamburger Menu
 - [ ] "Lookback" Tag for newer posts discussing old events
-- [ ] Improved Embedded Media Links
+- [ ] Improved Embedded Media Links (Fix Embedded Widgets)
 
 
 # React + Vite
