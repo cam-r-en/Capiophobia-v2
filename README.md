@@ -33,6 +33,7 @@ In Spring 2025, I attended another intermediate course for Web Development, also
 ## Soon To Be Added:
 - [ ] "Lookback" Tag for newer posts discussing old events
 - [ ] Improved Embedded Media Links (Fix Embedded Widgets)
+- [ ] Fix UI Layout for Mobile Devices
 
 
 # React + Vite
