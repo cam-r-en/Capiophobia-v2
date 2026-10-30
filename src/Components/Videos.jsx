@@ -1,6 +1,7 @@
 import React from "react";
 import "./Content.css";
 
+// Reusable card for videos in the home and archive grids.
 const Videos = ({ title, tbnl }) => {
   return (
     <div className="content media-content list">

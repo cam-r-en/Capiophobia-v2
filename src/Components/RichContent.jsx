@@ -1,6 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import "./RichContent.css";
 
+// Renders remote text content as rich HTML-like blocks:
+// - inline markdown links and emphasis
+// - image embeds
+// - social embeds (YouTube, TikTok, Instagram, Facebook, X)
+// If you change URL parsing or supported providers, this is the file to edit.
+
 // Match links in text while excluding common sentence-ending punctuation.
 const urlPattern = /https?:\/\/[^\s<>"')]+/gi;
 const inlineTokenPattern =

@@ -1,6 +1,7 @@
 import React from "react";
 import "./Content.css";
 
+// Reusable card for article listings inside the library pages.
 const Articles = ({ title, tbnl }) => {
   return (
     <div className="content media-content list">

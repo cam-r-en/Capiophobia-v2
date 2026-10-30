@@ -191,7 +191,7 @@ img#head-img {
   font-size: clamp(1.4rem, 2.3vw, 2.2rem);
   font-weight: 700;
   line-height: 1.2;
-  align-self: flex-start;
+  align-self: center;
 }
 .featured-story-meta {
   color: #d6dee8;
@@ -214,7 +214,7 @@ img#head-img {
   line-clamp: 4;
 }
 .featured-story-cta {
-  align-self: flex-start;
+  align-self: flex-end;
   color: var(--accent-red);
   font-size: 0.9rem;
   font-weight: 700;
@@ -222,6 +222,76 @@ img#head-img {
 .featured-story-empty {
   margin: 0;
   color: var(--text-muted);
+}
+
+.section-featured-item {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 18px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  text-decoration: none;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.section-featured-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(25, 43, 64, 0.14);
+}
+
+.section-featured-image {
+  display: block;
+  width: 100%;
+  max-height: 280px;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.section-featured-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.section-featured-label {
+  color: var(--accent-red);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section-featured-title {
+  color: var(--text-main);
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.section-featured-excerpt {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #f7eeee;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}
+
+.section-featured-cta {
+  align-self: flex-end;
+  color: var(--accent-red);
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 /* Sticky Section Navigation */
@@ -245,6 +315,12 @@ img#head-img {
   padding: 0 40px;
   margin: 0;
 }
+
+/* Library navigation is only used by the compact mobile menu. */
+.navbar ul.mobile-library-links {
+  display: none;
+}
+
 .navbar ul li {
   margin: 0;
 }
@@ -734,14 +810,84 @@ section {
   }
 
   .navbar ul {
-    flex-direction: row;
-    padding: 0 10px;
-    overflow-x: auto;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+  }
+
+  .navbar ul.mobile-library-links {
+    display: none;
+  }
+
+  .navbar.mobile-menu-open ul.mobile-library-links {
+    display: flex;
+  }
+
+  .mobile-nav-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    padding: 0 16px;
+  }
+
+  .mobile-nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+  }
+
+  .mobile-nav-button:hover,
+  .mobile-nav-button:focus-visible {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .mobile-nav-button:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+
+  .mobile-nav-button svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+  .mobile-search-form {
+    padding: 0 16px 14px;
+  }
+
+  .mobile-search-form .search-form {
+    max-width: none;
   }
 
   .navbar ul li a {
-    padding: 12px 10px;
-    font-size: 0.8rem;
+    padding: 14px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .navbar .desktop-section-links {
+    display: none;
+  }
+
+  .search-container {
+    display: none;
   }
 
   .warning-container {
@@ -764,8 +910,26 @@ section {
     gap: 16px;
   }
 
+  .section-featured-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
   .featured-story-image {
     max-height: 240px;
+  }
+
+  .section-featured-image {
+    max-height: 240px;
+  }
+}
+
+/* Hide mobile-only controls on desktop; the desktop section links remain visible. */
+@media (min-width: 851px) {
+  .mobile-nav-controls,
+  .mobile-search-form,
+  .navbar ul.mobile-library-links {
+    display: none;
   }
 }
 

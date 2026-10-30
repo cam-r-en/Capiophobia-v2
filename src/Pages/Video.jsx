@@ -5,6 +5,9 @@ import LoadingIndicator from "../Components/LoadingIndicator";
 import RichContent from "../Components/RichContent";
 import "./Detail.css";
 
+// Video detail page: loads one item from the videos table and decides whether to
+// render the linked embed or a fallback thumbnail based on the record contents.
+
 // Function to format the creation date
 const formatDate = (date) => {
   const options = {

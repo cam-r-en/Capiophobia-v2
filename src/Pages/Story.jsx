@@ -5,6 +5,8 @@ import LoadingIndicator from "../Components/LoadingIndicator";
 import RichContent from "../Components/RichContent";
 import "./Story.css";
 
+// Community story detail page: shows approved stories and any uploaded attachments/links.
+// The story is filtered to is_posted = false so unpublished drafts never appear publicly.
 const getStoryAttribution = (user) => {
   const name = user?.trim();
   return name && name.toLowerCase() !== "anonymous"

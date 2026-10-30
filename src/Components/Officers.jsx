@@ -1,6 +1,7 @@
 import React from "react";
 import "./Content.css";
 
+// Reusable officer card used in library views.
 const Officers = ({ offname, offimg }) => {
   const imageUrl = typeof offimg === "string" ? offimg.trim() : "";
 

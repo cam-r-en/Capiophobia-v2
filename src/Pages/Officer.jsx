@@ -5,6 +5,8 @@ import LoadingIndicator from "../Components/LoadingIndicator";
 import RichContent from "../Components/RichContent";
 import "./Detail.css";
 
+// Officer detail page: mirrors the victim page but flips the join table direction.
+// It loads the officer record and any victims linked to them.
 const Officer = () => {
   const { id } = useParams();
   const [person, setPerson] = useState(null);

@@ -89,7 +89,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 0;
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: #111111;
 }
 
@@ -147,7 +147,6 @@
   .rich-content-image {
     max-height: 560px;
   }
-
 }
 
 /* Increase Rich Media Limits on Extra-Wide Displays */
@@ -159,7 +158,6 @@
   .rich-content-image {
     max-height: 640px;
   }
-
 }
 
 /* Stack media and its description on narrower screens. */

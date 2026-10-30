@@ -4,6 +4,43 @@ import "./Home.css";
 import { supabase } from "../client";
 import SearchForm from "../Components/SearchForm";
 
+function getExcerpt(text) {
+  const excerpt = (text || "")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, "$1")
+    .replace(/https?:\/\/\S+/g, "")
+    .replace(/\*\*([^*]+)\*\*|\*([^*]+)\*/g, "$1$2")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (excerpt.length <= 240) {
+    return excerpt;
+  }
+
+  return `${excerpt.slice(0, 237).trimEnd()}...`;
+}
+
+function FeaturedItem({ item, type, description }) {
+  if (!item) {
+    return null;
+  }
+
+  return (
+    <Link className="section-featured-item" to={`/${type}/${item.id}`}>
+      {item.tbnl && (
+        <img className="section-featured-image" src={item.tbnl} alt="" />
+      )}
+      <span className="section-featured-copy">
+        <span className="section-featured-label">Featured {type}</span>
+        <span className="section-featured-title">{item.title}</span>
+        <span className="section-featured-excerpt">
+          {getExcerpt(description) || "Open this item to read more."}
+        </span>
+        <span className="section-featured-cta">Read more →</span>
+      </span>
+    </Link>
+  );
+}
+
 function Home() {
   const [videos, setVideos] = useState([]);
   const [articles, setArticles] = useState([]);
@@ -11,7 +48,8 @@ function Home() {
   const [officers, setOfficers] = useState([]);
   const [stories, setStories] = useState([]);
   const [storiesError, setStoriesError] = useState("");
-  const [featuredStory, setFeaturedStory] = useState(null); //Most recent article/video/story published
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 
   useEffect(() => {
     //Fetch content from Supabase
@@ -69,20 +107,6 @@ function Home() {
       setVictims(victimsData || []);
       setOfficers(officersData || []);
       setStories(storiesFetchError ? [] : storiesData || []);
-
-      // Keep the featured card focused on the latest video or article.
-      const newestVideo = videosData?.[0];
-      const newestArticle = articlesData?.[0];
-      const latestItems = [
-        newestVideo && { ...newestVideo, type: "video" },
-        newestArticle && { ...newestArticle, type: "article" },
-      ].filter(Boolean);
-
-      setFeaturedStory(
-        latestItems.sort(
-          (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at),
-        )[0] || null,
-      );
     };
 
     fetchContent();
@@ -121,79 +145,113 @@ function Home() {
         <div className="search-container">
           <SearchForm />
         </div>
-        {/* Featured Content */}
-        <div className="feature-container">
-          <h3 className="fts">Latest {featuredStory?.type}</h3>
-          {featuredStory ? (
-            <Link
-              className="featured-story"
-              to={`/${featuredStory.type}/${featuredStory.id}`}
-            >
-              {featuredStory.tbnl && (
-                <img
-                  className="featured-story-image"
-                  src={featuredStory.tbnl}
-                  alt=""
-                />
-              )}
-              <span className="featured-story-copy">
-                <span className="featured-story-title">
-                  {featuredStory.title}
-                </span>
-                <span className="featured-story-meta">
-                  {featuredStory.type === "article" ? "Article" : "Video"} ·{" "}
-                  {new Date(featuredStory.created_at).toLocaleDateString()}
-                </span>
-                <span className="featured-story-cta">Read more →</span>
-              </span>
-            </Link>
-          ) : (
-            <p className="featured-story-empty">
-              No articles or videos have been posted yet.
-            </p>
-          )}
-        </div>
-
         {/* Navbar */}
-        <nav className="navbar" id="navbar">
-          <ul>
+        <nav className={`navbar${mobileMenuOpen ? " mobile-menu-open" : ""}`} id="navbar">
+          <div className="mobile-nav-controls">
+            <button
+              className="mobile-nav-button"
+              type="button"
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="home-navigation-links"
+              onClick={() => setMobileMenuOpen((isOpen) => !isOpen)}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                {mobileMenuOpen ? (
+                  <path d="M6 6l12 12M18 6L6 18" />
+                ) : (
+                  <path d="M3 6h18M3 12h18M3 18h18" />
+                )}
+              </svg>
+            </button>
+            <button
+              className="mobile-nav-button mobile-search-toggle"
+              type="button"
+              aria-label={mobileSearchOpen ? "Close search" : "Open search"}
+              aria-expanded={mobileSearchOpen}
+              aria-controls="mobile-search-form"
+              onClick={() => setMobileSearchOpen((isOpen) => !isOpen)}
+            >
+              {mobileSearchOpen ? (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="10.8" cy="10.8" r="6.8" />
+                  <path d="m16 16 5 5" />
+                </svg>
+              )}
+            </button>
+          </div>
+          {mobileSearchOpen && (
+            <div className="mobile-search-form" id="mobile-search-form">
+              <SearchForm />
+            </div>
+          )}
+          {/* Desktop links jump to sections; the mobile menu links to libraries. */}
+          <ul className="desktop-section-links" id="home-navigation-links">
             <li>
-              <a href="#video-container">Videos</a>
+              <a href="#video-container">
+                Videos
+              </a>
             </li>
             <li>
-              <a href="#post-container">Articles</a>
+              <a href="#article-container">
+                Articles
+              </a>
             </li>
             <li>
-              <a href="#people-container">Victims/Officers</a>
+              <a href="#people-container">
+                Victims/Officers
+              </a>
             </li>
             <li>
-              <a href="#story-container">Stories</a>
+              <a href="#story-container">
+                Stories
+              </a>
+            </li>
+          </ul>
+          {/* Kept separate so library destinations only appear in the mobile menu. */}
+          <ul className="mobile-library-links">
+            <li>
+              <Link to="/morevideos" onClick={() => setMobileMenuOpen(false)}>
+                Videos
+              </Link>
+            </li>
+            <li>
+              <Link to="/morearticles" onClick={() => setMobileMenuOpen(false)}>
+                Articles
+              </Link>
+            </li>
+            <li>
+              <Link to="/morevictims" onClick={() => setMobileMenuOpen(false)}>
+                Victims
+              </Link>
+            </li>
+            <li>
+              <Link to="/moreofficers" onClick={() => setMobileMenuOpen(false)}>
+                Officers
+              </Link>
+            </li>
+            <li>
+              <Link to="/morestories" onClick={() => setMobileMenuOpen(false)}>
+                Community Stories
+              </Link>
             </li>
           </ul>
         </nav>
 
         {/* Content Sections */}
-        <section id="video-container">
-          <h2 className="section-title">Videos</h2>
-          <div className="video-container">
-            {videos.map((video) => (
-              <Link to={`/video/${video.id}`} key={video.id}>
-                <div className="c-item">
-                  <img src={video.tbnl} alt={video.title} />
-                  <h4> {video.title} </h4>
-                </div>
-              </Link>
-            ))}
-            <Link to="/morevideos" className="nav-button">
-              More Videos
-            </Link>
-          </div>
-        </section>
-
         <section id="article-container">
           <h2 className="section-title">Articles</h2>
+          <FeaturedItem
+            item={articles[0]}
+            type="article"
+            description={articles[0]?.essay}
+          />
           <div className="article-container">
-            {articles.map((article) => (
+            {articles.slice(1).map((article) => (
               <Link to={`/article/${article.id}`} key={article.id}>
                 <div className="c-item">
                   <img src={article.tbnl} alt={article.title} />
@@ -203,6 +261,28 @@ function Home() {
             ))}
             <Link to="/morearticles" className="nav-button">
               More Articles
+            </Link>
+          </div>
+        </section>
+
+        <section id="video-container">
+          <h2 className="section-title">Videos</h2>
+          <FeaturedItem
+            item={videos[0]}
+            type="video"
+            description={videos[0]?.desc}
+          />
+          <div className="video-container">
+            {videos.slice(1).map((video) => (
+              <Link to={`/video/${video.id}`} key={video.id}>
+                <div className="c-item">
+                  <img src={video.tbnl} alt={video.title} />
+                  <h4>{video.title}</h4>
+                </div>
+              </Link>
+            ))}
+            <Link to="/morevideos" className="nav-button">
+              More Videos
             </Link>
           </div>
         </section>

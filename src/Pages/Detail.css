@@ -1,4 +1,3 @@
-/* Detail Page Shell */
 .detail-page {
   display: flex;
   flex-direction: column;
@@ -12,7 +11,6 @@
   box-shadow: var(--page-shadow, 0 10px 32px rgba(43, 61, 81, 0.14));
 }
 
-/* Fixed Detail Page Header */
 .c-intro {
   position: fixed;
   z-index: 1000;
@@ -29,7 +27,6 @@
   background-color: var(--accent-blue-dark, #344b63);
 }
 
-/* Generic Detail Header and Content */
 .c-head {
   width: 100%;
   padding: 20px 0;
@@ -47,8 +44,15 @@
   margin: 0 auto;
   overflow-wrap: anywhere;
 }
+/* Expand article/video content when it contains paired media. */
+.c-content:has(.rich-content-media-row.has-details) {
+  max-width: 1100px;
+}
 
-/* Video Detail Layout */
+/* Video Detail Layout
+   This is the special two-column layout used when a page has both a media panel
+   and a text/info panel, such as the video detail view.
+*/
 .video-detail {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -74,11 +78,9 @@
   width: 100%;
   min-width: 0;
 }
-
 .video-detail-player-content .rich-content-embed {
   margin: 0;
 }
-
 .video-detail-player-content .rich-content-embed a {
   display: block;
   width: fit-content;
@@ -88,7 +90,6 @@
   text-align: center;
   text-decoration: none;
 }
-
 .video-detail-player-content .rich-content-embed a:hover {
   color: #ffffff;
   text-decoration: underline;
@@ -123,12 +124,14 @@
   margin-top: 24px;
 }
 
-/* Expand article/video content when it contains paired media. */
-.c-content:has(.rich-content-media-row.has-details) {
-  max-width: 1100px;
+.video-detail-info .c-description .rich-content-embed-tiktok iframe {
+  min-height: 680px;
 }
 
-/* Related Victim and Officer Cards */
+/* Related Victim and Officer Cards
+   These cards appear beneath a person profile and link to the other side of the
+   officer/victim relationship. This is the main cross-linking UI in the app.
+*/
 .related-people {
   width: 75%;
   max-width: 800px;
@@ -152,16 +155,16 @@
   align-items: center;
   gap: 8px;
   padding: 12px;
-  border: 2px solid #2c2c2c; /* Deep charcoal (soft black) */
+  border: 2px solid #2c2c2c;
   background-color: var(--accent-blue-dark, #344b63);
   border-radius: 4px;
   color: var(--text-main, #6b7280);
   text-align: center;
   text-decoration: none;
-  transition: border-color 0.2s ease; /* Optional: adds a smooth transition on hover */
+  transition: border-color 0.2s ease;
 }
 .related-person:hover {
-  border-color: #6b7280; /* Modern slate/cool gray accent */
+  border-color: #6b7280;
 }
 .related-person img {
   width: 100%;
@@ -171,7 +174,10 @@
   object-fit: cover;
 }
 
-/* Shared Detail Metadata and Description */
+/* Shared Detail Metadata and Description
+   These styles control the title, author, date, and long-form copy used inside
+   article/person/video detail content blocks.
+*/
 .c-title {
   display: block;
   margin: 0 0 8px;
@@ -220,7 +226,10 @@
   object-fit: cover;
 }
 
-/* Detail Header Branding and Navigation */
+/* Detail Header Branding and Navigation
+   These rules define the small badge image and the button-style links in the
+   fixed header.
+*/
 img#chead-img {
   width: 48px;
   height: auto;
@@ -268,7 +277,10 @@ img#chead-img {
   transform: translateY(1px);
 }
 
-/* Detail Page Separators */
+/* Detail Page Separators
+   The divider rules keep visual spacing consistent across page sections and
+   match the card-style layouts used in these details pages.
+*/
 .d-divide,
 .t-divide {
   width: 100%;

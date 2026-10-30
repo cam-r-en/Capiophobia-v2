@@ -1,6 +1,7 @@
 import React from "react";
 import "./Content.css";
 
+// Reusable victim card used in library views.
 const Victims = ({ vicname, vicimg }) => {
   const imageUrl = typeof vicimg === "string" ? vicimg.trim() : "";
 

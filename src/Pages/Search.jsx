@@ -5,6 +5,8 @@ import LoadingIndicator from "../Components/LoadingIndicator";
 import SearchForm from "../Components/SearchForm";
 import "./Search.css";
 
+// Search page: reads the ?query= URL param, fetches all relevant tables,
+// and groups matches into Articles, Videos, Victims, and Officers sections.
 function SearchPage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);

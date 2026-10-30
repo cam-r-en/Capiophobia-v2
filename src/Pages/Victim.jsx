@@ -5,6 +5,8 @@ import LoadingIndicator from "../Components/LoadingIndicator";
 import RichContent from "../Components/RichContent";
 import "./Detail.css";
 
+// Victim detail page: loads a person profile and any officers linked through the
+// officer_victims join table, then shows a related-people section.
 const Victim = () => {
   const { id } = useParams();
   const [person, setPerson] = useState(null);
