@@ -19,7 +19,7 @@ function SearchPage() {
       setLoading(true);
 
       // Fetch all relevant tables
-      const articles = (await supabase.from("stories").select())?.data || [];
+      const articles = (await supabase.from("articles").select())?.data || [];
       const videos = (await supabase.from("videos").select())?.data || [];
       const victims = (await supabase.from("victims").select())?.data || [];
       const officers = (await supabase.from("officers").select())?.data || [];
