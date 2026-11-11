@@ -79,7 +79,9 @@
   border-left: 3px solid var(--accent-blue, #48627d);
   border-radius: 4px;
   background-color: var(--bg-surface, #ffffff);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 .result-item:hover {
@@ -211,6 +213,13 @@
   .search-page .intro .search-form {
     flex-basis: 100%;
     max-width: 257px;
+    margin-left: 0;
+  }
+}
+@media (max-width: 480px) {
+  .search-page .intro .search-form {
+    flex-basis: 100%;
+    max-width: 230px;
     margin-left: 0;
   }
 }
