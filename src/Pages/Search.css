@@ -219,7 +219,7 @@
 @media (max-width: 480px) {
   .search-page .intro .search-form {
     flex-basis: 100%;
-    max-width: 230px;
+    max-width: 150px;
     margin-left: 0;
   }
 }
